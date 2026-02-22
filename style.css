@@ -1,0 +1,2908 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================
+   RESET BÁSICO
+========================= */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   HEADER / NAV
+========================= */
+.header{
+  background: #1c2f4a; /* azul escuro */
+  padding: 16px 0;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+}
+
+.header.scrolled{
+  background: #1c2f4a; /* azul do site */
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+
+.nav{
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo{
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* =========================
+   MENU (UL PRINCIPAL APENAS)
+========================= */
+.menu > ul{
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.menu a{
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+  position: relative;
+}
+
+/* =========================
+   DROPDOWN
+========================= */
+.dropdown{
+  position: relative;
+}
+
+/* submenu começa escondido */
+.submenu{
+  list-style: none;
+
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  min-width: 240px;
+  background: #fff;
+  padding: 8px 0;
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
+  z-index: 9999;
+
+  /* garante que NÃO fica em linha */
+  display: block;
+
+  /* escondido */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: .2s ease;
+}
+
+/* abre no hover */
+.dropdown:hover > .submenu{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* itens do submenu */
+.submenu li{
+  margin: 0;
+  padding: 0;
+}
+
+/* links do submenu (controla o espaço aqui) */
+.submenu a{
+  display: block;
+  padding: 6px 16px;   /* diminui aqui se quiser */
+  line-height: 1.1;
+  color: #333;
+  text-decoration: none;
+  white-space: nowrap; /* evita quebrar linha feio */
+}
+
+.submenu a:hover{
+  background: #f3f3f3;
+}
+
+/* ===== LOGO ===== */
+.logo-link{
+  display: inline-flex;
+  align-items: center;
+  transition: .25s ease;
+}
+
+/* tamanho da logo */
+.logo-img{
+  height: 64px;      /* ajuste se quiser */
+  width: auto;
+  display: block;
+
+  /* garante visual branco */
+  filter: brightness(0) invert(1);
+}
+
+/* hover premium */
+.logo-link:hover{
+  transform: translateY(-1px);
+  opacity: .9;
+}
+
+.logo-link:active{
+  transform: translateY(0);
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — HEADER / NAV (HAMBURGUER)
+   - Mantém desktop como está
+   - Mobile/Tablet: menu vira drawer (hamburguer)
+   - Sem scroll horizontal
+   - Mais respiro nas laterais
+================================================== */
+
+/* ---------- Ajustes base anti-scroll horizontal ---------- */
+html, body{
+  overflow-x: hidden;
+}
+
+.nav{
+  padding-left: 16px;  /* um pouco menos que o desktop (20px) */
+  padding-right: 16px;
+}
+
+/* Garante que o dropdown não “estoure” a tela em telas menores */
+.submenu{
+  max-width: min(92vw, 320px);
+}
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  /* header levemente mais compacto */
+  .header{
+    padding: 12px 0;
+  }
+
+  .logo-img{
+    height: 56px;
+  }
+
+  /* menu em hamburguer (esconde UL principal) */
+  .menu > ul{
+    display: none;
+  }
+
+  /* botão hamburguer (requer um elemento no HTML, ex: .nav__toggle) */
+  .nav__toggle{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    border: 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Drawer do menu (requer que o UL tenha uma classe, ex: .menu__list) */
+  .menu__list{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100svh;
+    width: min(360px, 86vw);
+
+    padding: 88px 18px 18px; /* espaço pro header */
+    background: #1c2f4a;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    transform: translateX(110%);
+    transition: transform .25s ease;
+    box-shadow: -18px 0 40px rgba(0,0,0,.35);
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    z-index: 10000;
+  }
+
+  /* Estado aberto (toggle via JS): body.nav-open ou .menu.is-open */
+  body.nav-open .menu__list,
+  .menu.is-open .menu__list{
+    transform: translateX(0);
+  }
+
+  /* Links com área de toque */
+  .menu__list a{
+    font-size: 18px;           /* mantém identidade, só ajusta leitura */
+    padding: 12px 10px;
+    border-radius: 10px;
+  }
+
+  /* Dropdown no mobile/tablet: em coluna */
+  .dropdown{
+    width: 100%;
+  }
+
+  /* Submenu vira bloco dentro do drawer */
+  .submenu{
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    background: rgba(255,255,255,.08);
+    box-shadow: none;
+    padding: 8px;
+    margin-top: 6px;
+    border-radius: 12px;
+  }
+
+  .submenu a{
+    color: #fff;
+    white-space: normal; /* evita quebrar layout em telas menores */
+    padding: 10px 10px;
+  }
+
+  .submenu a:hover{
+    background: rgba(255,255,255,.10);
+  }
+
+  /* Overlay (requer .nav__overlay no HTML) */
+  .nav__overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+    z-index: 9999;
+  }
+
+  body.nav-open .nav__overlay,
+  .menu.is-open ~ .nav__overlay{
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  .header{
+    padding: 10px 0;
+  }
+
+  .nav{
+    padding-left: 14px; /* mais respiro */
+    padding-right: 14px;
+  }
+
+  .logo-img{
+    height: 52px; /* mantém destaque sem ocupar demais */
+  }
+
+  /* esconde menu desktop */
+  .menu > ul{
+    display: none;
+  }
+
+  /* botão hamburguer (elemento no HTML, ex: .nav__toggle) */
+  .nav__toggle{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    border: 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Drawer */
+  .menu__list{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100svh;
+    width: min(340px, 88vw);
+
+    padding: 84px 16px 16px;
+    background: #1c2f4a;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    transform: translateX(110%);
+    transition: transform .25s ease;
+    box-shadow: -18px 0 40px rgba(0,0,0,.35);
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    z-index: 10000;
+  }
+
+  body.nav-open .menu__list,
+  .menu.is-open .menu__list{
+    transform: translateX(0);
+  }
+
+  /* Links maiores (toque) + legibilidade */
+  .menu__list a{
+    font-size: 18px;
+    padding: 12px 10px;
+    border-radius: 10px;
+  }
+
+  /* Dropdown em coluna */
+  .submenu{
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    max-width: 100%;
+    background: rgba(255,255,255,.08);
+    box-shadow: none;
+    padding: 8px;
+    margin-top: 6px;
+    border-radius: 12px;
+  }
+
+  .submenu a{
+    color: #fff;
+    white-space: normal;
+    padding: 10px 10px;
+  }
+
+  .submenu a:hover{
+    background: rgba(255,255,255,.10);
+  }
+
+  /* Overlay (elemento no HTML, ex: .nav__overlay) */
+  .nav__overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+    z-index: 9999;
+  }
+
+  body.nav-open .nav__overlay,
+  .menu.is-open ~ .nav__overlay{
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+   (mantém exatamente como está; só garante “sem surpresas”)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  .nav{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* se existir toggle/overlay no HTML, não aparece no desktop */
+  .nav__toggle,
+  .nav__overlay{
+    display: none !important;
+  }
+
+  .menu__list{
+    position: static;
+    height: auto;
+    width: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    overflow: visible;
+    display: flex;
+  }
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+   (desktop intacto)
+========================= */
+@media (min-width: 1200px){
+  .nav__toggle,
+  .nav__overlay{
+    display: none !important;
+  }
+
+  .menu__list{
+    position: static;
+    height: auto;
+    width: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    overflow: visible;
+    display: flex;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* ===== HERO (HOME) ===== */
+.hero{
+  position: relative;
+  min-height: 100vh;     /* ocupa a tela toda */
+  width: 100%;
+  overflow: hidden;
+}
+
+/* imagem de fundo */
+.hero__bg{
+  position: absolute;
+  inset: 0;
+  background: url("./img/home.webp") center / cover no-repeat; /* TROQUE o arquivo */
+  transform: scale(1.02); /* leve “cinema” */
+}
+
+/* escurece (overlay preto transparente) */
+.hero__overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.45); /* ajuste a força aqui */
+}
+
+/* conteúdo */
+.hero__content{
+  position: relative;
+  z-index: 2;
+
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  color: #fff;
+}
+
+/* “BEM VINDO!” */
+.hero__kicker{
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 16px;
+  opacity: .9;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.55);
+}
+
+/* ASSIS ADVOGADOS */
+.hero__title{
+  font-size: clamp(44px, 6vw, 84px);
+  line-height: 1.05;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-shadow:
+    0 4px 20px rgba(0,0,0,.6),
+    0 2px 4px rgba(0,0,0,.4);
+}
+
+/* subtítulo */
+.hero__subtitle{
+  max-width: 680px;
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: .9;
+  margin-bottom: 22px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.6);
+}
+
+/* botão */
+.hero__btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+  padding: 12px 18px;
+
+  border: 1px solid rgba(255,255,255,.7);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+
+  transition: .25s ease;
+}
+
+.hero__btn:hover{
+  background: rgba(255,255,255,.12);
+  transform: translateY(-1px);
+}
+
+/* ===== ZOOM SUAVE NO HERO ===== */
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero__bg{
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — HERO (HOME)
+   - Mantém desktop intacto
+   - Mobile/Tablet: textos mais legíveis + respiro nas bordas
+   - Evita cortes ruins (ajuste de background-position)
+   - Botão com área de toque confortável
+   - Sem scroll horizontal
+================================================== */
+
+/* Anti-scroll horizontal + respiro base */
+.hero,
+.hero__content{
+  max-width: 100%;
+}
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  .hero{
+    min-height: 92vh; /* evita “esticado” em alguns tablets */
+  }
+
+  .hero__content{
+    padding-left: 22px;
+    padding-right: 22px;
+    min-height: 92vh;
+  }
+
+  /* melhora enquadramento do fundo em telas mais baixas/largas */
+  .hero__bg{
+    background-position: center 35%;
+  }
+
+  .hero__kicker{
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .hero__title{
+    /* clamp já resolve bem, só ajusta o “piso” do tamanho no tablet */
+    font-size: clamp(36px, 6vw, 72px);
+  }
+
+  .hero__subtitle{
+    max-width: 560px;
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .hero__btn{
+    padding: 14px 18px; /* área de toque */
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  .hero{
+    min-height: 88svh; /* melhor em mobile com barras do navegador */
+  }
+
+  .hero__content{
+    min-height: 88svh;
+    padding-left: 18px;  /* margem lateral para não colar */
+    padding-right: 18px;
+  }
+
+  /* enquadramento mais “alto” para não cortar o assunto da foto */
+  .hero__bg{
+    background-position: center 28%;
+  }
+
+  .hero__kicker{
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .hero__title{
+    font-size: clamp(30px, 10vw, 46px);
+    line-height: 1.08;
+    margin-bottom: 10px;
+  }
+
+  .hero__subtitle{
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+
+  .hero__btn{
+    width: 100%;          /* CTA “forte” no mobile */
+    max-width: 420px;     /* sem ficar gigante em telas maiores */
+    padding: 14px 18px;   /* toque confortável */
+    font-size: 13px;
+    justify-content: center;
+  }
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+   (mantém como está, só garante respiro)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  .hero__content{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+   (desktop intacto)
+========================= */
+@media (min-width: 1200px){
+  /* nada a ajustar — mantém padrão */
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   CONTAINER PADRÃO
+========================= */
+.container{
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* =========================
+   TÍTULO PADRÃO DA PÁGINA
+========================= */
+.page-hero{
+  padding: 110px 0 30px;
+  text-align: center;
+}
+
+.page-hero__title{
+  font-size: 36px;
+  letter-spacing: .06em;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.page-hero__subtitle{
+  max-width: 760px;
+  margin: 0 auto;
+  color: #2e6bd6;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* =========================
+   ABOUT (igual referência)
+========================= */
+.about{
+  padding: 20px 0;
+}
+
+.about__kicker{
+  color: #2e6bd6;
+  letter-spacing: .10em;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.about__headline{
+  font-size: 44px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+/* IMAGEM flutuando à direita */
+.about__media{
+  float: right;
+  width: min(520px, 45%);
+  margin: 0 0 20px 40px; /* espaço entre texto e imagem */
+  position: relative;
+}
+
+.about__media img{
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+}
+
+/* cantos (moldura) */
+.about__media::before,
+.about__media::after{
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border: 2px solid #1c2f4a;
+}
+
+.about__media::before{
+  top: -14px;
+  right: -14px;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.about__media::after{
+  bottom: -14px;
+  left: -14px;
+  border-right: 0;
+  border-top: 0;
+}
+
+/* texto */
+.about__body p{
+  color: #333;
+  line-height: 1.75;
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+/* limpar float */
+.clearfix{
+  clear: both;
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — CONTAINER + PAGE HERO + ABOUT
+   - Mantém desktop intacto
+   - Tablet/Mobile: mais respiro, textos legíveis
+   - About: remove float e empilha (imagem acima do texto)
+   - Sem scroll horizontal
+================================================== */
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  /* container: respiro lateral */
+  .container{
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  /* título de página: ajusta altura por causa do header fixo */
+  .page-hero{
+    padding: 96px 0 26px;
+  }
+
+  .page-hero__title{
+    font-size: 32px;
+  }
+
+  .page-hero__subtitle{
+    font-size: 15px;
+    padding-left: 6px;
+    padding-right: 6px; /* evita colar em telas menores */
+  }
+
+  /* ABOUT: tira float e empilha para não quebrar */
+  .about__media{
+    float: none;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto 18px; /* centraliza */
+  }
+
+  /* moldura: evita “estourar” lateralmente */
+  .about__media::before{
+    right: 8px;
+    top: -10px;
+  }
+  .about__media::after{
+    left: 8px;
+    bottom: -10px;
+  }
+
+  .about__kicker{
+    font-size: 15px;
+  }
+
+  .about__headline{
+    font-size: 38px;
+  }
+
+  .about__body p{
+    font-size: 15px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  /* clearfix fica neutro quando não há float */
+  .clearfix{
+    clear: both;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  /* container: mais margem para não colar nas bordas */
+  .container{
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  /* título de página: reduz e mantém legível */
+  .page-hero{
+    padding: 88px 0 22px;
+    text-align: left; /* melhora leitura em telas pequenas */
+  }
+
+  .page-hero__title{
+    font-size: 28px;
+    letter-spacing: .04em; /* um pouco menos “espalhado” no mobile */
+  }
+
+  .page-hero__subtitle{
+    font-size: 14px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* ABOUT: empilha + remove float */
+  .about{
+    padding: 18px 0;
+  }
+
+  .about__kicker{
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .about__headline{
+    font-size: 32px;
+    line-height: 1.15;
+  }
+
+  .about__media{
+    float: none;
+    width: 100%;
+    margin: 12px 0 16px;
+  }
+
+  /* moldura: não deixa “vazar” para fora */
+  .about__media::before,
+  .about__media::after{
+    width: 40px;
+    height: 40px;
+  }
+
+  .about__media::before{
+    right: 6px;
+    top: -10px;
+  }
+
+  .about__media::after{
+    left: 6px;
+    bottom: -10px;
+  }
+
+  .about__body p{
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* clearfix neutro */
+  .clearfix{
+    clear: both;
+  }
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+   (mantém como está; só garante respiro padrão)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  .container{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+   (desktop intacto)
+========================= */
+@media (min-width: 1200px){
+  /* nada a ajustar — mantém padrão */
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   ÁREAS DE ATUAÇÃO
+========================= */
+.areas{
+  padding: 110px 0;
+  background: #fff;
+  text-align: center;
+}
+
+/* título padrão */
+.areas__title{
+  font-size: 36px;
+  line-height: 1.1;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+/* subtítulo abaixo */
+.areas__kicker{
+  color: #2e6bd6;
+  letter-spacing: .10em;
+  font-size: 16px;
+  margin-bottom: 50px;
+}
+
+/* GRID */
+.areas__grid{
+  width: min(1100px, 100%);
+  margin: 0 auto 50px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+}
+
+/* CARD (imagem ocupa tudo) */
+.area-card{
+  position: relative;
+  border: 1px solid #2b3b52;
+  text-decoration: none;
+  color: #fff;
+  overflow: hidden;
+  padding: 0;
+
+  display: flex;
+  align-items: flex-end;
+
+  min-height: 260px;
+
+  /* hover + entrada */
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+
+  /* animação de entrada (stagger via nth-child abaixo) */
+  opacity: 0;
+  transform: translateY(18px);
+  animation: areaCardIn .7s ease forwards;
+}
+
+/* stagger */
+.areas__grid .area-card:nth-child(2){ animation-delay: .08s; }
+.areas__grid .area-card:nth-child(3){ animation-delay: .16s; }
+.areas__grid .area-card:nth-child(4){ animation-delay: .24s; }
+
+@keyframes areaCardIn{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* imagem ocupa tudo */
+.area-card__bg{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform .45s ease;
+}
+
+/* overlay premium (cinema) */
+.area-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.72),
+    rgba(0,0,0,.30) 52%,
+    rgba(0,0,0,.10)
+  );
+  transition: opacity .25s ease;
+  z-index: 1;
+}
+
+/* glow radial (premium) */
+.area-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 85% at 50% 120%,
+    rgba(46,107,214,.22),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity .35s ease;
+  z-index: 2;
+}
+
+/* LINHA ANIMADA (detalhe de luxo) */
+.area-card__line{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #2e6bd6, #6fa3ff);
+  transition: width .35s ease;
+  z-index: 4;
+}
+
+/* texto */
+.area-card__desc{
+  position: relative;
+  z-index: 3;
+  padding: 22px;
+
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: .01em;
+  color: #fff;
+
+  max-width: 28ch;
+  margin: 0;
+}
+
+/* hover premium */
+.area-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.18);
+  border-color: #2e6bd6;
+}
+
+.area-card:hover .area-card__bg{
+  transform: scale(1.07);
+}
+
+.area-card:hover::before{
+  opacity: .88;
+}
+
+.area-card:hover::after{
+  opacity: 1;
+}
+
+.area-card:hover .area-card__line{
+  width: 100%;
+}
+
+/* acessibilidade (teclado) */
+.area-card:focus-visible{
+  outline: 3px solid rgba(46,107,214,.35);
+  outline-offset: 3px;
+}
+
+/* parágrafo final */
+.areas__footer{
+  max-width: 780px;
+  margin: 0 auto;
+  line-height: 1.7;
+  color: #444;
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — ÁREAS DE ATUAÇÃO
+   - Mantém desktop intacto
+   - Tablet: 2 colunas
+   - Mobile: 1 coluna
+   - Textos com respiro nas bordas
+   - Sem scroll horizontal
+================================================== */
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  .areas{
+    padding: 86px 0; /* reduz altura sem mexer na identidade */
+  }
+
+  .areas__title{
+    font-size: 32px;
+  }
+
+  .areas__kicker{
+    font-size: 15px;
+    margin-bottom: 36px;
+    padding-left: 10px;
+    padding-right: 10px; /* respiro lateral */
+  }
+
+  .areas__grid{
+    padding-left: 22px;
+    padding-right: 22px; /* garante que o grid não encosta */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+  }
+
+  .area-card{
+    min-height: 240px;
+  }
+
+  .area-card__desc{
+    padding: 20px;
+    max-width: 34ch; /* mais confortável no tablet */
+  }
+
+  .areas__footer{
+    padding-left: 22px;
+    padding-right: 22px;
+    font-size: 15px;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  .areas{
+    padding: 70px 0;
+    text-align: left; /* melhora leitura em mobile */
+  }
+
+  .areas__title{
+    font-size: 28px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .areas__kicker{
+    font-size: 14px;
+    margin-bottom: 26px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .areas__grid{
+    padding-left: 18px;
+    padding-right: 18px;
+
+    grid-template-columns: 1fr;
+    gap: 18px;
+
+    margin-bottom: 32px;
+  }
+
+  .area-card{
+    min-height: 220px;
+  }
+
+  .area-card__desc{
+    padding: 18px;
+    font-size: 14px;
+    max-width: 100%;
+  }
+
+  .areas__footer{
+    padding-left: 18px;
+    padding-right: 18px;
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+   (mantém como está; só garante respiro)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  /* nada necessário — layout já está ok */
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+   (desktop intacto)
+========================= */
+@media (min-width: 1200px){
+  /* nada a ajustar — mantém padrão */
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   EQUIPE (TEAM) — Premium
+========================= */
+
+.team{
+  /* fundo “premium” parecido com a referência */
+  background:
+    linear-gradient(135deg, rgba(10,20,35,.92), rgba(10,20,35,.75)),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255,255,255,.04) 0px,
+      rgba(255,255,255,.04) 48px,
+      rgba(255,255,255,0) 48px,
+      rgba(255,255,255,0) 96px
+    );
+  padding: 110px 0;
+  color: #fff;
+}
+
+.team .section-title__title{
+  font-size: 36px;
+  line-height: 1.1;
+  text-align: center;
+  color:#fff !important;
+  text-shadow: 0 10px 30px rgba(0,0,0,.45);
+  margin-bottom: 10px;
+}
+
+.team .section-title__kicker{
+  color: rgba(120,170,255,.95) !important;
+  margin-bottom: 50px;
+  font-size: 16px;
+  letter-spacing: .10em;
+  text-align: center;
+}
+
+/* grid com 2 cards */
+.team__grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 34px;
+  align-items: start;
+}
+
+/* card clicável */
+.team-card{
+  position: relative;
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  transform: translateY(0);
+  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 18px 48px rgba(0,0,0,.35);
+  outline: none;
+}
+
+/* mídia */
+.team-card__media{
+  position: relative;
+  height: 660px; /* ajuste se quiser mais alto/baixo */
+  background: rgba(0,0,0,.2);
+}
+
+.team-card__media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform .35s ease, filter .35s ease;
+  filter: saturate(1.02) contrast(1.02);
+}
+
+/* overlay premium (deixa texto mais legível) */
+.team-card__media::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 420px at 20% 85%, rgba(0,0,0,.55), rgba(0,0,0,0) 55%),
+    linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 55%);
+  pointer-events: none;
+}
+
+/* texto no rodapé do card (igual referência) */
+.team-card__info{
+  position: absolute;
+  left: 26px;
+  bottom: 22px;
+  right: 26px;
+}
+
+.team-card__name{
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 500;
+  color: rgba(255,255,255,.95);
+  text-shadow: 0 10px 22px rgba(0,0,0,.55);
+}
+
+.team-card__role{
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: rgba(120, 170, 255, .95);
+  text-shadow: 0 8px 18px rgba(0,0,0,.55);
+}
+
+/* hover premium */
+.team-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 26px 70px rgba(0,0,0,.45);
+}
+
+.team-card:hover img{
+  transform: scale(1.05);
+  filter: saturate(1.06) contrast(1.06);
+}
+
+/* foco por teclado */
+.team-card:focus-visible{
+  box-shadow: 0 0 0 3px rgba(120,170,255,.55), 0 26px 70px rgba(0,0,0,.45);
+}
+
+/* ===== EQUIPE — cores do título ===== */
+
+.equipe .section-title__title{
+  color: #ffffff;
+}
+
+.equipe .section-title__kicker{
+  color: rgba(120,170,255,.9);
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — EQUIPE (TEAM)
+   - Mantém desktop intacto
+   - Tablet: 2 colunas continua, com altura menor e respiro
+   - Mobile: 1 coluna + altura ajustada (sem corte ruim)
+   - Sem scroll horizontal + textos com margem
+================================================== */
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  .team{
+    padding: 86px 0;
+  }
+
+  .team .section-title__title{
+    font-size: 32px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .team .section-title__kicker{
+    font-size: 15px;
+    margin-bottom: 36px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .team__grid{
+    gap: 26px;
+    padding-left: 22px;
+    padding-right: 22px; /* evita colar nas bordas */
+  }
+
+  /* diminui altura para caber melhor em tablet */
+  .team-card__media{
+    height: 520px;
+  }
+
+  .team-card__info{
+    left: 22px;
+    right: 22px;
+    bottom: 18px;
+  }
+
+  .team-card__role{
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  .team{
+    padding: 70px 0;
+  }
+
+  .team .section-title__title{
+    font-size: 28px;
+    text-align: left;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .team .section-title__kicker{
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 26px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .team__grid{
+    grid-template-columns: 1fr; /* empilha */
+    gap: 18px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  /* altura adaptada para mobile (sem ficar enorme) */
+  .team-card__media{
+    height: 440px;
+  }
+
+  /* texto com respiro */
+  .team-card__info{
+    left: 18px;
+    right: 18px;
+    bottom: 16px;
+  }
+
+  .team-card__name{
+    font-size: clamp(20px, 6vw, 26px);
+  }
+
+  .team-card__role{
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+   (mantém como está; sem alterações necessárias)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  /* nada necessário — layout já está ok */
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+   (desktop intacto)
+========================= */
+@media (min-width: 1200px){
+  /* nada a ajustar — mantém padrão */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   CONTATO
+========================= */
+.contact{
+  padding: 110px 0 110px;
+  background: #fff;
+}
+
+.section-title__title{
+    font-size: 36px;
+    line-height: 1.1;
+    color: #111;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.section-title__subtitle{
+    color: #2e6bd6;
+    font-size: 16px;
+    letter-spacing: .10em;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.contact-form{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.contact-form__grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 22px;
+  align-items: start;
+}
+
+.contact-form__full{
+  grid-column: 1 / -1;
+}
+
+/* campos (igual da imagem: cinza claro, grande, clean) */
+.field{
+  width: 100%;
+  height: 46px;
+  border: 1px solid rgba(15, 23, 42, .08);
+  background: #eee;
+  border-radius: 4px;
+  padding: 0 14px;
+  font-size: 14px;
+  outline: none;
+  transition: box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+
+textarea.field{
+  height: auto;
+  padding: 14px;
+  resize: vertical;
+  min-height: 260px;
+}
+
+/* foco premium */
+.field:focus{
+  background: #f2f2f2;
+  border-color: rgba(90, 150, 255, .45);
+  box-shadow: 0 0 0 4px rgba(90, 150, 255, .14);
+}
+
+/* botão */
+.btn-send{
+  display: block;
+  margin: 26px auto 0;
+  width: 260px;
+  height: 48px;
+  border: 0;
+  border-radius: 2px;
+  background: #2e3e56; /* azul/acinzentado igual print */
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+  box-shadow: 0 16px 40px rgba(0,0,0,.18);
+}
+
+.btn-send:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 22px 55px rgba(0,0,0,.22);
+}
+
+.btn-send:active{
+  transform: translateY(0px);
+}
+
+.contact-form__hint{
+  text-align: center;
+  margin: 14px auto 0;
+  color: rgba(15, 23, 42, .55);
+  font-size: 12px;
+  max-width: 640px;
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — CONTATO
+   - Mantém desktop intacto
+   - Tablet: 2 colunas com respiro
+   - Mobile: 1 coluna, inputs maiores e botão full
+   - Sem scroll horizontal + textos com margem
+================================================== */
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  .contact{
+    padding: 86px 0;
+  }
+
+  .section-title__title{
+    font-size: 32px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .section-title__subtitle{
+    font-size: 15px;
+    margin-bottom: 36px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .contact-form{
+    padding-left: 22px;
+    padding-right: 22px; /* evita colar e previne overflow */
+  }
+
+  .contact-form__grid{
+    gap: 16px 18px;
+  }
+
+  .field{
+    height: 48px; /* um pouco mais confortável */
+    font-size: 14px;
+  }
+
+  textarea.field{
+    min-height: 220px;
+  }
+
+  .btn-send{
+    width: 260px; /* mantém estilo */
+    height: 50px; /* toque mais confortável */
+  }
+
+  .contact-form__hint{
+    padding-left: 22px;
+    padding-right: 22px;
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  .contact{
+    padding: 70px 0;
+  }
+
+  .section-title__title{
+    font-size: 28px;
+    text-align: left;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .section-title__subtitle{
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 26px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .contact-form{
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .contact-form__grid{
+    grid-template-columns: 1fr; /* empilha */
+    gap: 14px;
+  }
+
+  .contact-form__full{
+    grid-column: auto;
+  }
+
+  .field{
+    height: 50px;     /* toque confortável */
+    font-size: 14px;
+    padding: 0 14px;
+  }
+
+  textarea.field{
+    min-height: 200px;
+  }
+
+  .btn-send{
+    width: 100%;        /* CTA forte no mobile */
+    max-width: 520px;   /* não exagera em telas maiores */
+    height: 52px;
+    margin: 20px auto 0;
+  }
+
+  .contact-form__hint{
+    text-align: left;
+    margin-top: 12px;
+    padding-left: 2px;  /* alinha com o formulário sem colar */
+    padding-right: 2px;
+    font-size: 12px;
+    max-width: 100%;
+  }
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+   (mantém como está; sem alterações necessárias)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  /* nada necessário — layout já está ok */
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+   (desktop intacto)
+========================= */
+@media (min-width: 1200px){
+  /* nada a ajustar — mantém padrão */
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   FOOTER — PREMIUM
+========================= */
+.footer{
+  background:
+    linear-gradient(135deg, rgba(10,20,35,.96), rgba(10,20,35,.82)),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255,255,255,.04) 0px,
+      rgba(255,255,255,.04) 48px,
+      rgba(255,255,255,0) 48px,
+      rgba(255,255,255,0) 96px
+    );
+  color: rgba(255,255,255,.90);
+  padding: 72px 0 0;
+}
+
+/* grade */
+.footer__grid{
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1.2fr;
+  gap: 46px;
+  align-items: start;
+}
+
+/* logo */
+.footer__logo{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: .25s ease;
+}
+.footer__logo img{
+  height: 150px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1); /* deixa branca */
+  opacity: .95;
+}
+.footer__logo:hover{
+  transform: translateY(-2px);
+  opacity: .92;
+}
+
+/* social */
+.footer__social{
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+}
+.social-btn{
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  color: #fff;
+
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  box-shadow: 0 12px 28px rgba(0,0,0,.25);
+}
+.social-btn:hover{
+  transform: translateY(-2px);
+  background: rgba(120,170,255,.16);
+  border-color: rgba(120,170,255,.38);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}
+.social-btn span{ font-size: 16px; }
+
+/* títulos */
+.footer__title{
+  margin: 0 0 14px;
+  font-size: 13px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(120,170,255,.95);
+}
+
+/* listas */
+.footer__list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.footer__list a{
+  color: rgba(255,255,255,.88);
+  text-decoration: none;
+  transition: .2s ease;
+}
+.footer__list a:hover{
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* contato */
+.footer__list--contact li{
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+.footer__icon{
+  opacity: .9;
+}
+
+/* horários */
+.footer__hours{
+  display: grid;
+  gap: 10px;
+}
+.hours__row{
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+  color: rgba(255,255,255,.85);
+}
+.hours__row span:last-child{
+  color: rgba(255,255,255,.92);
+}
+
+/* bottom */
+.footer__bottom{
+  margin-top: 48px;
+  border-top: 1px solid rgba(255,255,255,.10);
+  padding: 18px 0;
+  text-align: center;
+  color: rgba(255,255,255,.72);
+}
+.footer__bottom a{
+  color: rgba(120,170,255,.95);
+  text-decoration: none;
+  font-weight: 600;
+}
+.footer__bottom a:hover{
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* coluna da logo */
+.footer__brand{
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 👉 centraliza horizontal */
+  text-align: center;
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — FOOTER (PREMIUM)
+   - Mantém desktop intacto
+   - Tablet: 2 colunas
+   - Mobile: 1 coluna
+   - Logo ajusta tamanho sem distorção
+   - Espaçamentos equilibrados + sem scroll horizontal
+================================================== */
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  .footer{
+    padding: 60px 0 0;
+  }
+
+  .footer__grid{
+    grid-template-columns: 1fr 1fr; /* 2 colunas */
+    gap: 34px;
+    padding-left: 22px;
+    padding-right: 22px; /* respiro lateral */
+  }
+
+  /* logo menor no tablet */
+  .footer__logo img{
+    height: 120px;
+  }
+
+  .footer__brand{
+    align-items: flex-start; /* leitura mais natural em tablet */
+    text-align: left;
+  }
+
+  .footer__social{
+    justify-content: flex-start;
+  }
+
+  .hours__row{
+    font-size: 13px;
+  }
+
+  .footer__bottom{
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  .footer{
+    padding: 52px 0 0;
+  }
+
+  .footer__grid{
+    grid-template-columns: 1fr; /* empilha */
+    gap: 26px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  /* logo ajustada sem “invadir” a tela */
+  .footer__logo img{
+    height: 105px;
+    max-width: 100%;
+  }
+
+  .footer__brand{
+    align-items: center;  /* volta ao centro no mobile */
+    text-align: center;
+  }
+
+  .footer__social{
+    justify-content: center;
+  }
+
+  /* listas e contato com respiro */
+  .footer__title{
+    margin-bottom: 12px;
+  }
+
+  .footer__list{
+    gap: 9px;
+  }
+
+  /* horários: evita “estouro” em telas pequenas */
+  .hours__row{
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  .hours__row span{
+    max-width: 100%;
+  }
+
+  .footer__bottom{
+    margin-top: 34px;
+    padding: 16px 18px;
+    text-align: center;
+  }
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+   (mantém como está; sem alterações necessárias)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  /* nada necessário — layout já está ok */
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+   (desktop intacto)
+========================= */
+@media (min-width: 1200px){
+  /* nada a ajustar — mantém padrão */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================================================
+   DEMAIS PÁGINAS
+================================================== */
+/* ==================================================
+   ÁREA — HERO (imagem no HTML, com overlay)
+   - Textos mais próximos (controle por gap)
+================================================== */
+.area-hero{
+  position: relative;
+  width: 100%;
+  height: 420px;              /* ajuste se quiser mais alto/baixo */
+  margin-top: 96px;           /* compensa o header fixo (ajuste conforme sua header) */
+  overflow: hidden;
+}
+
+.area-hero__img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.03);     /* leve “cinema” */
+}
+
+.area-hero__overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+}
+
+/* ✅ troca GRID por FLEX pra controlar distância com GAP */
+.area-hero__content{
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;                   /* ✅ aqui controla a distância entre os textos */
+  text-align: center;
+  color: #fff;
+}
+
+/* ✅ zera margens (distância fica só no gap) */
+.area-hero__kicker,
+.area-hero__title,
+.area-hero__subtitle{
+  margin: 0;
+}
+
+.area-hero__kicker{
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(120, 170, 255, .95);
+}
+
+.area-hero__title{
+  font-size: clamp(38px, 4.8vw, 62px);
+  line-height: 1.05;
+  text-shadow: 0 10px 26px rgba(0,0,0,.55);
+}
+
+.area-hero__subtitle{
+  max-width: 520px;           /* ✅ deixa elegante em 2 linhas */
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(255,255,255,.88);
+  text-shadow: 0 10px 26px rgba(0,0,0,.55);
+}
+
+/* ==================================================
+   ÁREA — CONTEÚDO (IGUAL REFERÊNCIA: imagem flutua à direita)
+================================================== */
+
+.area-content{
+  padding: 20px 0;
+  background: #fff;
+}
+
+.area-content__kicker{
+  color: #2e6bd6;
+  letter-spacing: .10em;
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+
+.area-content__title{
+  font-size: 54px;
+  line-height: 1.05;
+  margin: 0 0 24px;
+  color: #111;
+  font-weight: 500;
+}
+
+/* fluxo normal do texto */
+.area-content__flow{
+  display: block;
+}
+
+/* texto */
+.area-content__text p{
+  color: #222;
+  line-height: 1.75;
+  margin: 0 0 16px;
+  font-size: 15px;
+}
+
+/* imagem flutuando à direita (o texto “preenche” e depois vira 100%) */
+.area-content__media{
+  width: min(520px, 42%);
+  float: right;
+  margin: 0 0 18px 40px; /* espaço à esquerda e embaixo */
+  position: relative;
+}
+
+.area-content__media img{
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+}
+
+/* cantos decorativos */
+.area-content__media::before,
+.area-content__media::after{
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border: 2px solid #1c2f4a;
+}
+
+.area-content__media::before{
+  top: -14px;
+  right: -14px;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.area-content__media::after{
+  bottom: -14px;
+  left: -14px;
+  border-right: 0;
+  border-top: 0;
+}
+
+/* garante que a seção “feche” o float corretamente */
+.area-content__flow::after{
+  content: "";
+  display: block;
+  clear: both;
+}
+
+
+
+
+/* ==================================================
+   RESPONSIVIDADE — ÁREA (HERO + CONTEÚDO)
+   - Mantém desktop intacto
+   - Tablet/Mobile: ajusta altura, espaçamentos e legibilidade
+   - Remove float e empilha a imagem para evitar quebra
+   - Sem scroll horizontal + textos com margem
+================================================== */
+
+/* =========================
+   TABLET (576px — 991.98px)
+========================= */
+@media (min-width: 576px) and (max-width: 991.98px){
+
+  /* HERO */
+  .area-hero{
+    height: 360px;
+    margin-top: 92px; /* header fixo (tablet) */
+  }
+
+  .area-hero__content{
+    padding-left: 22px;
+    padding-right: 22px;
+    gap: 6px;
+  }
+
+  .area-hero__img{
+    object-position: center 35%;
+  }
+
+  .area-hero__title{
+    font-size: clamp(32px, 5.2vw, 52px);
+  }
+
+  .area-hero__subtitle{
+    max-width: 620px;
+    font-size: 14px;
+  }
+
+  /* CONTEÚDO */
+  .area-content{
+    padding: 18px 0;
+  }
+
+  .area-content__kicker{
+    font-size: 15px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .area-content__title{
+    font-size: 44px;
+    padding-left: 22px;
+    padding-right: 22px;
+    margin-bottom: 18px;
+  }
+
+  .area-content__text{
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .area-content__media{
+    float: none;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto 18px;
+  }
+
+  .area-content__media::before{
+    right: 8px;
+    top: -10px;
+  }
+  .area-content__media::after{
+    left: 8px;
+    bottom: -10px;
+  }
+
+  .area-content__text p{
+    font-size: 15px;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 575.98px)
+========================= */
+@media (max-width: 575.98px){
+
+  /* HERO */
+  .area-hero{
+    height: 300px;
+    margin-top: 84px; /* header fixo (mobile) */
+  }
+
+  .area-hero__content{
+    padding-left: 18px;
+    padding-right: 18px;
+    gap: 6px;
+  }
+
+  .area-hero__img{
+    object-position: center 28%;
+  }
+
+  .area-hero__kicker{
+    font-size: 11px;
+  }
+
+  .area-hero__title{
+    font-size: clamp(26px, 8.2vw, 40px);
+    line-height: 1.08;
+  }
+
+  .area-hero__subtitle{
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* CONTEÚDO */
+  .area-content{
+    padding: 16px 0;
+  }
+
+  .area-content__kicker{
+    font-size: 14px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .area-content__title{
+    font-size: 34px;
+    line-height: 1.12;
+    padding-left: 18px;
+    padding-right: 18px;
+    margin-bottom: 14px;
+  }
+
+  .area-content__text{
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .area-content__text p{
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .area-content__media{
+    float: none;
+    width: 100%;
+    margin: 10px 0 16px;
+  }
+
+  .area-content__media::before,
+  .area-content__media::after{
+    width: 40px;
+    height: 40px;
+  }
+
+  .area-content__media::before{
+    right: 6px;
+    top: -10px;
+  }
+  .area-content__media::after{
+    left: 6px;
+    bottom: -10px;
+  }
+}
+
+/* ==================================================
+   MOBILE — Card com altura da imagem (sem corte)
+================================================== */
+@media (max-width: 575.98px){
+
+  /* card não define mais altura */
+  .area-card{
+    min-height: auto !important;
+    height: auto !important;
+    display: block; /* remove comportamento flex */
+    padding: 0;
+    background: transparent; /* remove fundo escuro */
+  }
+
+  /* imagem passa a definir a altura do card */
+  .area-card__bg{
+    position: relative; /* tira do absolute */
+    width: 100%;
+    height: auto;
+    object-fit: initial !important;
+    transform: none !important;
+  }
+
+  /* remove overlay que cria “espaço visual” */
+  .area-card::before,
+  .area-card::after{
+    display: none;
+  }
+
+  /* texto passa a ficar abaixo da imagem (sem sobrepor) */
+  .area-card__desc{
+    position: static;
+    padding: 12px 6px 0;
+    color: #111; /* mantém legível fora da imagem */
+    max-width: 100%;
+  }
+
+}
+
+/* =========================
+   DESKTOP (992px — 1199.98px)
+========================= */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  .area-hero__content{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* =========================
+   EXTRA LARGE (≥ 1200px)
+========================= */
+@media (min-width: 1200px){
+  /* mantém padrão */
+}
+
+/* ==================================================
+   FIX DEFINITIVO — HERO HOME ocupar a tela toda
+   (sem “vazio” embaixo, com header fixo)
+================================================== */
+
+/* ajuste a altura real do seu header fixo */
+:root{
+  --header-h: 96px;
+}
+
+/* evita scroll horizontal “fantasma” */
+html, body{
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* ✅ o HERO fica com 100% da tela (não subtrai header) */
+.hero{
+  min-height: 100svh;
+}
+
+/* ✅ só empurra o conteúdo pra não ficar atrás do header */
+.hero__content{
+  min-height: 100svh;
+  padding-top: var(--header-h);
+  box-sizing: border-box;
+}
+
+/* mobile — header costuma ser menor */
+@media (max-width: 575.98px){
+  :root{
+    --header-h: 84px;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* =========================
+   HAMBURGUER
+========================= */
+
+/* desktop: escondido */
+.nav__toggle{
+  display: none;
+}
+
+/* ícone */
+.nav__bars{
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  position: relative;
+  display: block;
+}
+
+.nav__bars::before,
+.nav__bars::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:24px;
+  height:2px;
+  background:#fff;
+}
+
+.nav__bars::before{ top:-7px; }
+.nav__bars::after{ top:7px; }
+
+/* mobile + tablet */
+@media (max-width: 991.98px){
+  .nav__toggle{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    margin-left: auto; /* joga pra direita */
+  }
+
+  /* esconde menu padrão */
+  .menu > ul{
+    display: none;
+  }
+
+  /* menu aberto */
+  .menu.is-open > ul{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #1c2f4a;
+    width: 240px;
+    padding: 16px;
+    gap: 12px;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* ==================================================
+   NAV MOBILE PREMIUM (drawer + overlay + X)
+   - NÃO altera desktop
+================================================== */
+
+/* overlay (invisível por padrão) */
+.nav__overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.48);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 9998;
+}
+
+/* trava scroll quando menu aberto */
+body.nav-open{
+  overflow: hidden;
+}
+
+/* hamburguer vira X (animação) */
+.nav__toggle{
+  position: relative;
+  z-index: 10001;
+}
+
+.nav__bars{
+  transition: background .2s ease;
+}
+
+.nav__bars::before,
+.nav__bars::after{
+  transition: transform .25s ease, top .25s ease, opacity .2s ease;
+}
+
+/* estado aberto: vira X */
+body.nav-open .nav__bars{
+  background: transparent;
+}
+body.nav-open .nav__bars::before{
+  top: 0;
+  transform: rotate(45deg);
+}
+body.nav-open .nav__bars::after{
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* drawer */
+@media (max-width: 991.98px){
+
+  /* mantém UL escondido no modo desktop */
+  .menu > ul{
+    display: flex; /* o drawer usa flex */
+  }
+
+  /* UL vira drawer lateral */
+  .menu > ul{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100svh;
+    width: min(340px, 86vw);
+
+    padding: 92px 16px 18px;
+    margin: 0;
+
+    flex-direction: column;
+    gap: 10px;
+
+    background: #1c2f4a;
+    box-shadow: -18px 0 50px rgba(0,0,0,.45);
+
+    transform: translateX(110%);
+    transition: transform .25s ease;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    z-index: 10000;
+  }
+
+  /* abre */
+  body.nav-open .menu > ul{
+    transform: translateX(0);
+  }
+
+  /* overlay aparece */
+  body.nav-open .nav__overlay{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* links: toque confortável + premium */
+  .menu a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+    padding: 12px 12px;
+    border-radius: 12px;
+
+    /* mantém identidade (sem trocar cor) */
+    color: #fff;
+  }
+
+  .menu a:hover{
+    background: rgba(255,255,255,.08);
+  }
+
+  /* dropdown no mobile: sem hover */
+  .dropdown:hover > .submenu{
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+  }
+
+  /* submenu vira accordion (fechado por padrão) */
+  .submenu{
+    position: static;
+    transform: none;
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    display: none;           /* fechado */
+    background: rgba(255,255,255,.06);
+    box-shadow: none;
+
+    padding: 10px;
+    border-radius: 14px;
+    margin-top: 6px;
+  }
+
+  /* quando dropdown estiver aberto */
+  .dropdown.is-open > .submenu{
+    display: block;
+  }
+
+  .submenu a{
+    justify-content: flex-start;
+    color: rgba(255,255,255,.92);
+    padding: 10px 10px;
+    border-radius: 10px;
+    white-space: normal;
+  }
+
+  .submenu a:hover{
+    background: rgba(255,255,255,.08);
+  }
+}
+
+
+
+
+
+
+
+
+
+/* ==================================================
+   NAV MOBILE PREMIUM — FIX submenu + alinhamento esquerdo
+================================================== */
+
+@media (max-width: 991.98px){
+
+  /* Drawer: tudo alinhado à esquerda */
+  .menu > ul{
+    align-items: stretch;
+  }
+
+  .menu > ul > li{
+    width: 100%;
+  }
+
+  .menu a{
+    justify-content: flex-start !important; /* antes estava centralizando */
+    text-align: left;
+  }
+
+  /* garante que o link pai do dropdown ocupe a linha toda */
+  .dropdown > a{
+    width: 100%;
+    justify-content: space-between !important; /* texto à esquerda + setinha à direita */
+  }
+
+  /* ✅ IMPORTANTÍSSIMO:
+     No mobile, o submenu precisa "existir" visualmente.
+     Suas regras antigas deixam ele invisível (opacity/visibility/pointer-events/transform).
+     Aqui a gente anula isso no mobile.
+  */
+  .submenu{
+    position: static !important;
+    transform: none !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+
+    display: none; /* fechado por padrão */
+    max-width: 100%;
+
+    background: rgba(255,255,255,.06);
+    box-shadow: none;
+    padding: 10px;
+    border-radius: 14px;
+    margin-top: 8px;
+  }
+
+  /* abre quando clicar */
+  .dropdown.is-open > .submenu{
+    display: block;
+  }
+
+  /* links internos do submenu à esquerda */
+  .submenu a{
+    justify-content: flex-start !important;
+    text-align: left;
+    white-space: normal;
+  }
+}
